@@ -23,7 +23,7 @@ class EventsModel:
                 sql = "SELECT * FROM events WHERE id_event = %s"
                 cur.execute(sql, (id_event,))
                 event = cur.fetchone()
-                if event in None:
+                if event is None:
                     raise HTTPException(status_code=404, detail="Evento non trovato")
                 return event
             

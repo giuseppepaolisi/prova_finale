@@ -12,7 +12,7 @@ class EventsController:
     def get_event(id_event, conn):
         try:
             # Controllo su id_event
-            if id_event <= 0:
+            if id_event is None or int(id_event) <= 0:
                 raise HTTPException(status_code=400, detail="id_event deve essere un numero positivo")
             
             return EventsModel.get_event(id_event, conn)
