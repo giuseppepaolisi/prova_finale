@@ -2,7 +2,7 @@ import re
 
 from fastapi import HTTPException
 
-from backend.src.models.users_model import UsersModel
+from models.users_model import UsersModel
 
 class UsersController:
     
