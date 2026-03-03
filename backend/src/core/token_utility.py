@@ -1,4 +1,4 @@
-import jwt
+import jwt as pyjwt  # ensure we use PyJWT and avoid conflicts with other jwt packages
 from datetime import datetime, timedelta
 from fastapi import HTTPException, status
 
@@ -11,7 +11,7 @@ def create_access_token(data: dict):
     to_encode = data.copy()
     expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    encoded_jwt = pyjwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
 def verify_token(token: str):

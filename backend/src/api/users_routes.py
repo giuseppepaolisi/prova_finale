@@ -2,7 +2,6 @@ from fastapi import routing, Depends, status
 from core.database import db
 from controllers.users_controller import UsersController
 from pydantic import BaseModel
-import jwt
 from datetime import datetime, timedelta
 from fastapi.security import OAuth2PasswordBearer
 from core.token_utility import create_access_token

@@ -1,4 +1,5 @@
 from psycopg2.extras import RealDictCursor
+from psycopg2 import errors as psycopg2_errors
 from fastapi import HTTPException
 
 class SubscriptModel:
@@ -19,6 +20,8 @@ class SubscriptModel:
                 
                 return subscript
                 
+        except psycopg2_errors.UniqueViolation:
+            raise HTTPException(status_code=409, detail="Sei già iscritto a questo evento")
         except Exception as e:
             print("Errore iscrizione", e)
-            raise HTTPException(status_code=400, detail="Errore nella registrazione")
+            raise HTTPException(status_code=500, detail="Errore durante l'iscrizione")

@@ -20,4 +20,4 @@ class SubscriptController:
                 
         except Exception as e:
             print("Errore iscrizione", e)
-            raise HTTPException(status_code=500, detail="Errore nella registrazione")
+            raise e

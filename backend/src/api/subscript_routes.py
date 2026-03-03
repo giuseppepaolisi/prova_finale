@@ -11,7 +11,6 @@ router = routing.APIRouter(prefix="/join")
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
 def join(subscript: SubscriptBase, conn = Depends(db.get_conn)):
-    subscript, event = SubscriptController.join(user=subscript.id_user, event=subscript.id_event, conn=conn)
-    print(event)
+    subscript = SubscriptController.join(user=subscript.id_user, event=subscript.id_event, conn=conn)
     return subscript
 
