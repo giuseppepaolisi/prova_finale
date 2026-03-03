@@ -7,8 +7,7 @@ from fastapi.security import OAuth2PasswordBearer
 from core.token_utility import create_access_token
 
 # Definiamo dove FastAPI deve cercare il token (nell'header Authorization)
-# oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
-
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 class UserBase(BaseModel):
     email: str
@@ -23,8 +22,14 @@ router = routing.APIRouter()
 def login(email: UserBase, conn = Depends(db.get_conn)):
     user = UsersController.login(email, conn)
     if user is not None:
-        access_token = create_access_token(data=user)
-        return {"access_token": access_token, "token_type": "bearer"}
+        # Creazione del payload per il token
+        payload = {
+            "email": user.get("email"),
+            "role": user.get("role"),
+            "name": user.get("name"),
+        }
+        access_token = create_access_token(data=payload)
+        return {"access_token": access_token, "token_type": "bearer", "user": payload}
     return {}
 
 @router.post("/signup", status_code=status.HTTP_201_CREATED)

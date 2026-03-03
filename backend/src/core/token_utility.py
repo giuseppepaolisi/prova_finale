@@ -1,4 +1,4 @@
-import jwt as pyjwt  # ensure we use PyJWT and avoid conflicts with other jwt packages
+import jwt as pyjwt
 from datetime import datetime, timedelta
 from fastapi import HTTPException, status
 
