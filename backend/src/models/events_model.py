@@ -46,3 +46,18 @@ class EventsModel:
         except Exception as e:
             print("Errore get_events ", e)
             raise e
+        
+    def increment_subscriptions(id_event, conn):
+        try:
+            with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                sql = "UPDATE events SET subscriptions = subscriptions + 1 WHERE id_event = %s RETURNING *"
+                cur.execute(sql, (id_event,))
+                
+                event = cur.fetchone()
+                if event is None:
+                    raise HTTPException(status_code=404, detail="Evento non trovato")
+                return event
+            
+        except Exception as e:
+            print("Errore increment_subscriptions ", e)
+            raise HTTPException(status_code=500, detail="Errore durante l'incremento delle iscrizioni")
