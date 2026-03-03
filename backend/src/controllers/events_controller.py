@@ -1,32 +1,21 @@
 from psycopg2.extras import RealDictCursor
 from fastapi import HTTPException
+from models.events_model import EventsModel
 
 class EventsController:
     
     @staticmethod
     def get_events(conn):
-        try:
-            with conn.cursor(cursor_factory=RealDictCursor) as cur:
-                sql = "SELECT * FROM events"
-                cur.execute(sql)
-                
-                return cur.fetchall()
-            
-        except Exception as e:
-            print("Errore get_events ", e)
-            raise e
+        return EventsModel.get_events(conn)
         
     @staticmethod
     def get_event(id_event, conn):
         try:
-            # Fare controllo su id_event
-            with conn.cursor(cursor_factory=RealDictCursor) as cur:
-                sql = "SELECT * FROM events WHERE id_event = %s"
-                cur.execute(sql, (id_event,))
-                event = cur.fetchone()
-                if event in None:
-                    raise HTTPException(status_code=404, detail="Evento non trovato")
-                return event
+            # Controllo su id_event
+            if id_event <= 0:
+                raise HTTPException(status_code=400, detail="id_event deve essere un numero positivo")
+            
+            return EventsModel.get_event(id_event, conn)
             
         except Exception as e:
             print("Errore get_events ", e)
@@ -36,15 +25,10 @@ class EventsController:
     def create_event(event, conn):
         try:
             # Fare controllo su event
-            with conn.cursor(cursor_factory=RealDictCursor) as cur:
-                sql = "INSERT INTO events (titolo, descrizione, capacity, category) VALUES (%s, %s, %s, %s) RETURNING *"
-                cur.execute(sql, (event.titolo, event.descrizione, event.capacity, event.category))
-                
-                new_ev = cur.fetchone()
-                if new_ev is None:
-                    raise HTTPException(status_code=404, detail="Non è possbile creare l'evento")
-                return new_ev
+            if not event.titolo or not event.descrizione or not event.capacity or not event.category:
+                raise HTTPException(status_code=400, detail="Tutti i campi sono obbligatori")
+            return EventsModel.create_event(event, conn)
             
         except Exception as e:
-            print("Errore get_events ", e)
+            print("Errore create_event ", e)
             raise e
