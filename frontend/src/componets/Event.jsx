@@ -1,6 +1,6 @@
 import React from "react";
 
-function Event ({event}) {
+function Event ({event, join}) {
 
     return (
         <div>
@@ -8,7 +8,7 @@ function Event ({event}) {
             <label>Descrizione: {event.descrizione}</label>
             <label>Capacità: {event.capacity}</label>
             <label>Categoria: {event.category}</label>
-            <button>Join</button>
+            <button onClick={() => join(event)}>Join</button>
         </div>
     );
 

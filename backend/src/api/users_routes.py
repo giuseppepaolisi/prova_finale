@@ -27,6 +27,7 @@ def login(email: UserBase, conn = Depends(db.get_conn)):
             "email": user.get("email"),
             "role": user.get("role"),
             "name": user.get("name"),
+            "id_user": user.get("id_user")
         }
         access_token = create_access_token(data=payload)
         return {"access_token": access_token, "token_type": "bearer", "user": payload}

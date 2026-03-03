@@ -1,25 +1,37 @@
 import App from "./App";
 import Login from "./componets/Login";
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from "./auth/AuthContext";
+import { ProtectedRoute } from "./auth/ProtectedRoute";
+import Dashboard from "./pages/Dashboard";
 
 function AppRoute() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        
-        <Route path="/events" element={
-            <App />
-        } />
+      <AuthProvider>
+        <Routes>
+          {/* Public routes */}
+          <Route path="/login" element={<Login />} />
 
-        {/* Rotta per il singolo evento con ID dinamico */}
-        <Route path="/events/:id" element={
-            <Event />
-        } />
+          {/* Protected routes */}
+          <Route
+            path="/events"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route path="/" element={<Navigate to="/events" />} />
-      </Routes>
+          {/* Default redirect */}
+          <Route path="/" element={<Navigate to="/events" replace />} />
+          
+          {/* 404 catch-all */}
+          <Route path="*" element={<Navigate to="/events" replace />} />
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   );
 }
+
 export default AppRoute;

@@ -16,9 +16,9 @@ def create_access_token(data: dict):
 
 def verify_token(token: str):
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = pyjwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         return payload
-    except jwt.PyJWTError:
+    except pyjwt.PyJWTError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Token non valido o scaduto",
