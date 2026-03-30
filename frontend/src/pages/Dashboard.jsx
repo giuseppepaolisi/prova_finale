@@ -17,7 +17,7 @@ function Dashboard() {
   const loadData = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:8000/events");
+      const response = await fetch("/events");
 
       if(!response.ok) {
         throw Error("Errore get events");
@@ -39,7 +39,7 @@ function Dashboard() {
   const showEvent = async (id) => {
     console.log(id);
     try {
-      const response = await fetch(`http://localhost:8000/events/${id}`);
+      const response = await fetch(`/events/${id}`);
 
       if(!response.ok) {
         throw Error("Errore get events");
@@ -59,7 +59,7 @@ function Dashboard() {
 
   const addEvent = async (event) => {
     try {
-      const response = await fetch(`http://localhost:8000/events`, {
+      const response = await fetch(`/events`, {
         method: "POST",
         headers: {"content-type": "application/json"},
         body: JSON.stringify(event)
@@ -90,7 +90,7 @@ function Dashboard() {
     }
 
     try {
-      const response = await fetch(`http://localhost:8000/join`, {
+      const response = await fetch(`/join`, {
         method: "POST",
         headers: {"content-type": "application/json"},
         body: JSON.stringify({

@@ -7,7 +7,7 @@ import Event from './componets/Event'
 import { useAuth } from './auth/useAuth'
 import { createAuthenticatedFetch } from './auth/apiClient'
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const API_BASE_URL = import.meta.env.VITE_API_URL || '/';
 
 function App() {
   const { user, token, logout } = useAuth();
