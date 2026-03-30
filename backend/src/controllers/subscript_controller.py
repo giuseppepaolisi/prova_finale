@@ -1,7 +1,6 @@
 from psycopg2.extras import RealDictCursor
 from fastapi import HTTPException
 from models.subscript_model import SubscriptModel
-from models.events_model import EventsModel
 
 class SubscriptController:
     
@@ -15,7 +14,7 @@ class SubscriptController:
                 raise HTTPException(status_code=400, detail="event è obbligatorio e deve essere un numero positivo")
             
             subscript = SubscriptModel.join(user, event, conn)
-            EventsModel.increment_subscriptions(event, conn)
+
             return subscript
                 
         except Exception as e:
